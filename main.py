@@ -31,12 +31,13 @@ def fit_classifier():
     y_test = enc.transform(y_test.reshape(-1,1)).toarray()
 
     if len(x_train.shape) == 2: # if univariate 
-        # add a dimension to make it multivariate with one dimension 
-        x_train = x_train.reshape((x_train.shape[0],x_train.shape[1],1))
-        x_test = x_test.reshape((x_test.shape[0],x_test.shape[1],1))
+        # add a dimension to make it multivariate with one dimension
+        # add dimension to support 2d-conv instead of 1d-conv
+        x_train = x_train.reshape((x_train.shape[0], x_train.shape[1], 1, 1))
+        x_test = x_test.reshape((x_test.shape[0], x_test.shape[1], 1, 1))
 
     input_shape = x_train.shape[1:]
-    classifier = create_classifier(classifier_name,input_shape, nb_classes, output_directory)
+    classifier = create_classifier(classifier_name, input_shape, nb_classes, output_directory)
 
     classifier.fit(x_train,y_train,x_test,y_test, y_true)
 
